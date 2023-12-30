@@ -1,0 +1,89 @@
+# install docker
+
+-> sudo apt install docker.io -y
+
+-> Create 2 containter with ubuntu
+
+    sudo docker run -d  -it --name c01 ubuntu /bin/bash
+    sudo docker run -d  -it --name c02 ubuntu /bin/bash
+  
+## Grafana installation command - PORT - 3000
+
+-> First, let's make sure that all the dependencies are installed.
+
+     sudo apt-get install -y apt-transport-https software-properties-common
+
+-> Next, add GPG key
+
+     wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+
+-> Add this repository for stable releases     
+
+     echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+
+-> After you add the repository, update and install Garafana. 
+
+     sudo apt-get update   
+     sudo apt-get -y install grafana  
+
+-> To automatically start the Grafana after reboot, enable the service.
+
+     sudo systemctl enable grafana-server
+
+-> Then start the Grafana.    
+
+     sudo systemctl start grafana-server
+
+
+## install Prometheus - PORT - 9090
+
+-> Download Zip file
+
+    wget https://github.com/prometheus/prometheus/releases/download/v2.32.1/prometheus-2.32.1.linux-amd64.tar.gz
+
+-> Unzip file
+
+    tar -xvf prometheus-2.32.1.linux-amd64.tar.gz
+
+-> Go to the file    
+
+    cd prometheus-2.32.1.linux-amd64
+
+-> Edit prometheus.yml    
+    
+    -> sudo vim prometheus.yml 
+
+---- add below details ----
+    - job_name: "docker"
+
+      # metrics_path defaults to '/metrics'
+      # scheme defaults to 'http'.
+
+      static_configs:
+        - targets: ["localhost:9323"]
+
+-> start prometheus
+
+    ./prometheus        
+
+## Add file in docker
+
+-> sudo vi /etc/docker/daemon.json
+
+--- add this content ---    
+    {
+        "metrics-addr" : "0.0.0.0:9323",
+        "experimental": true
+
+    }
+
+-> sudo service docker restart
+
+
+Create Query in Grafana with Prometheus data source and create dashoard
+
+    engine_daemon_container_states_containers{state="paused"} 
+    engine_daemon_container_states_containers{state="running"} 
+    engine_daemon_container_states_containers{state="stopped"} 
+
+
