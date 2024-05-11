@@ -51,3 +51,18 @@
       [Install]
       WantedBy=multi-user.target
 ```
+
+### Check configuration
+- To check all configyration in promethues is right or not
+   - command : promtool check config /etc/prometheus/prometheus.yml
+- To check rules
+   - command : sudo promtool check rules /etc/prometheus/prometheus_rules.yml   
+
+- Need to add file in prometheus.yml file 
+```
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+    - "prometheus_rules.yml"
+
+```
