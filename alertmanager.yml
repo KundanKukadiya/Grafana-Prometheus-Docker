@@ -1,0 +1,16 @@
+global:
+ resolve_timeout: 1m
+
+route:
+ receiver: 'email-notifications'
+
+receivers:
+- name: 'email-notifications'
+  email_configs:
+  - to: kundankukadiya007@gmail.com
+    from: kundankukadiya007@gmail.com
+    smarthost: smtp.gmail.com:587
+    auth_username: kundankukadiya007@gmail.com
+    auth_identity: kundankukadiya007@gmail.com
+    auth_password: <token or password>
+    send_resolved: true
