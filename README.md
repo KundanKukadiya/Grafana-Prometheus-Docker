@@ -57,6 +57,8 @@
    - command : promtool check config /etc/prometheus/prometheus.yml
 - To check rules
    - command : sudo promtool check rules /etc/prometheus/prometheus_rules.yml   
+- To check alertmanager file
+   - command : amtool check-config alertmanager.yml   
 
 - Need to add file in prometheus.yml file 
 ```
